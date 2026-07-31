@@ -17,8 +17,49 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Colecionateca - Loja de Consoles Antigos",
-  description: "Sua loja de consoles e jogos antigos.",
+  title: {
+    default: "Colecionateca - Loja de Consoles e Jogos Antigos",
+    template: "%s | Colecionateca"
+  },
+  description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
+  keywords: "consoles antigos, jogos retro, SNES, Nintendo 64, Mega Drive, colecionador, jogos clássicos",
+  authors: [{ name: "Colecionateca" }],
+  creator: "Colecionateca",
+  publisher: "Colecionateca",
+  robots: "index, follow",
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "https://colecionateca.vercel.app",
+    title: "Colecionateca - Loja de Consoles e Jogos Antigos",
+    description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
+    siteName: "Colecionateca",
+    images: [
+      {
+        url: "/images/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Colecionateca - Loja de Consoles Antigos",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Colecionateca - Loja de Consoles e Jogos Antigos",
+    description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
+    images: ["/images/og-image.jpg"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
