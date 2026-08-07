@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -180,6 +181,7 @@ export default function EditarProdutoPage() {
           imagem: form.imagem || undefined,
           categoria: form.categoria || undefined,
           metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
+          destaque: form.destaque,
         }),
       });
 

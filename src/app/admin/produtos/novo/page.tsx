@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState } from "react";
@@ -97,6 +98,7 @@ export default function NovoProdutoPage() {
           imagem: form.imagem || undefined,
           categoria: form.categoria || undefined,
           metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
+          destaque: form.destaque,
         }),
       });
 
