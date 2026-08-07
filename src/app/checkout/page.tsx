@@ -208,7 +208,7 @@ export default function CheckoutPage() {
     setValorFrete(0);
 
     try {
-      const response = await fetch("http://localhost:3001/frete/calcular", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/frete/calcular`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

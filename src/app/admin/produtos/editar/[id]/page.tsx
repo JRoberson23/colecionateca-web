@@ -58,7 +58,7 @@ export default function EditarProdutoPage() {
     async function carregarProduto() {
       if (!id) return;
       try {
-        const response = await fetch(`http://localhost:3001/produtos/${id}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`);
         if (!response.ok) throw new Error("Produto não encontrado");
         const data = await response.json();
 
@@ -124,7 +124,7 @@ export default function EditarProdutoPage() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/produtos/upload", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -166,7 +166,7 @@ export default function EditarProdutoPage() {
       });
 
       // ✅ PUT em vez de POST
-      const response = await fetch(`http://localhost:3001/produtos/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
