@@ -23,6 +23,7 @@ interface FormData {
   imagem: string;
   categoria: string;
   metadata: Metadata;
+  destaque: boolean;
 }
 
 export default function EditarProdutoPage() {
@@ -49,6 +50,7 @@ export default function EditarProdutoPage() {
       fabricante: "",
       altura: "",
     },
+    destaque: false,
   });
 
   // ✅ CARREGAR DADOS DO PRODUTO
@@ -75,6 +77,7 @@ export default function EditarProdutoPage() {
             fabricante: data.metadata?.fabricante || "",
             altura: data.metadata?.altura || "",
           },
+          destaque: data.destaque || false,
         });
       } catch (error) {
         setErro(error instanceof Error ? error.message : "Erro ao carregar produto");
@@ -373,6 +376,20 @@ export default function EditarProdutoPage() {
               />
             </div>
           </div>
+        </div>
+
+        {/* ✅ Checkbox de destaque */}
+        <div className="flex items-center gap-2 border-t pt-4 mt-4">
+          <input
+            type="checkbox"
+            id="destaque"
+            checked={form.destaque}
+            onChange={(e) => setForm({ ...form, destaque: e.target.checked })}
+            className="w-4 h-4 text-blue-600"
+          />
+          <label htmlFor="destaque" className="text-sm font-medium text-gray-700">
+            ⭐ Destacar na Home
+          </label>
         </div>
 
         <div className="flex gap-4 pt-4">

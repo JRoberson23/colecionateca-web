@@ -23,6 +23,7 @@ interface FormData {
   imagem: string;
   categoria: string;
   metadata: Metadata;
+  destaque: boolean;
 }
 
 export default function NovoProdutoPage() {
@@ -46,6 +47,7 @@ export default function NovoProdutoPage() {
       fabricante: "",
       altura: "",
     },
+    destaque: false,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -326,6 +328,20 @@ const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
               />
             </div>
           </div>
+        </div>
+
+        {/* ✅ Checkbox de destaque */}
+        <div className="flex items-center gap-2 border-t pt-4 mt-4">
+          <input
+            type="checkbox"
+            id="destaque"
+            checked={form.destaque}
+            onChange={(e) => setForm({ ...form, destaque: e.target.checked })}
+            className="w-4 h-4 text-blue-600"
+          />
+          <label htmlFor="destaque" className="text-sm font-medium text-gray-700">
+            ⭐ Destacar na Home
+          </label>
         </div>
 
         <div className="flex gap-4 pt-4">
