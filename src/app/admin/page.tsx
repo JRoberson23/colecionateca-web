@@ -51,9 +51,14 @@ export default function AdminPage() {
     }
   }, [usuario]);
 
-  // ✅ Função para excluir produto
+  // ✅ Função para excluir produto (VERSÃO FORÇADA)
   const handleExcluir = async (id: string, nome: string) => {
-    if (!confirm(`Tem certeza que deseja excluir o produto "${nome}"? Esta ação não pode ser desfeita.`)) {
+    console.log('🗑️ EXCLUINDO PRODUTO - VERSÃO 2.0');
+    console.log('📦 ID:', id);
+    console.log('📦 Nome:', nome);
+    console.log('🔗 URL:', `${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`);
+
+    if (!confirm(`Tem certeza que deseja excluir o produto "${nome}"?`)) {
       return;
     }
 
@@ -64,12 +69,14 @@ export default function AdminPage() {
         return;
       }
 
-      const response = await fetch(`http://localhost:3001/produtos/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log('📦 Status da resposta:', response.status);
 
       if (!response.ok) {
         const data = await response.json();
@@ -80,31 +87,13 @@ export default function AdminPage() {
       setMensagem({ tipo: "sucesso", texto: `Produto "${nome}" excluído com sucesso!` });
       setTimeout(() => setMensagem(null), 3000);
     } catch (error) {
+      console.error('❌ Erro ao excluir:', error);
       setMensagem({
         tipo: "erro",
         texto: error instanceof Error ? error.message : "Erro ao excluir produto",
       });
     }
   };
-
-  if (isLoading || carregando) {
-    return (
-      <div className="flex justify-center items-center min-h-[400px]">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-          <p className="mt-4 text-gray-600">Carregando...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!usuario || usuario.role !== "admin") {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-600 text-lg">Acesso negado.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-6xl mx-auto">
