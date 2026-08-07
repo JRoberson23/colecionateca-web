@@ -61,6 +61,7 @@ export default function ProdutoCard({
               alt={nome}
               fill
               className="object-cover"
+              unoptimized={imagem?.includes("cloudinary.com")}
             />
           ) : (
             <div className="flex items-center justify-center h-full text-gray-400 text-4xl">
