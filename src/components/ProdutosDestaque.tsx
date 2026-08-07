@@ -38,7 +38,10 @@ export default function ProdutosDestaque({ produtos }: { produtos: ProdutoDestaq
                   src={produto.imagem}
                   alt={produto.nome}
                   fill
-                  className="object-cover"
+                  className="object-contain p-2"
+                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                 quality={100}
+                 unoptimized={produto.imagem.includes('cloudinary.com')}
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-400 text-4xl">
