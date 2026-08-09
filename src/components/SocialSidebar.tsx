@@ -10,13 +10,13 @@ export default function SocialSidebar() {
   return (
     <div
       className="fixed bottom-6 left-1 z-50 flex items-center"
-      onMouseEnter={() => setIsOpen(true)}
+      onMouseEnter={() => setIsOpen(false)}
       onMouseLeave={() => setIsOpen(false)}
     >
       {/* Ícone principal */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-blue-600 text-white p-5 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center"
+        className="bg-blue-600/60 text-white p-5 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center"
       >
         <HiShare className="text-xl" />
       </button>
@@ -24,7 +24,7 @@ export default function SocialSidebar() {
       {/* Ícones das redes sociais (expansíveis) */}
       <div
         className={`flex items-center gap-3 ml-3 transition-all duration-300 ease-in-out ${
-          isOpen ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"
+          isOpen ? "opacity-600 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"
         }`}
       >
         <a
