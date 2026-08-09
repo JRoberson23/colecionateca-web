@@ -12,13 +12,16 @@ export default function Footer() {
         <p className="text-xs md:text-sm text-gray-400 mt-1">
           Sua loja de consoles e jogos antigos.
         </p>
+        <p className="text-xs md:text-sm text-gray-400 mt-1">
+          📍 Santa Catarina, Brasil • Sua loja de consoles e jogos antigos.
+        </p>
 
         {/* ✅ Desenvolvedor */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-3 mt-6 pt-6 border-t border-gray-700">
           <div className="flex items-center gap-3">
             <span className="text-sm md:text-base text-gray-300 font-bold">
               Desenvolvido por
-            </span>
+            </span>          
 
             <a
               href="https://roberson-dev.vercel.app/"

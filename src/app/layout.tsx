@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { CarrinhoProvider } from "../contexts/CarrinhoContext";
 import { AuthProvider } from "../contexts/AuthContext";
+import SocialSidebar from "../components/SocialSidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -79,6 +80,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <SocialSidebar />
           </CarrinhoProvider>
         </AuthProvider>
       </body>
