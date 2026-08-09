@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { FaWhatsapp } from "react-icons/fa";
@@ -13,7 +14,7 @@ export default function Footer() {
           Sua loja de consoles e jogos antigos.
         </p>
         <p className="text-xs md:text-sm text-gray-400 mt-1">
-          📍 Santa Catarina, Brasil • Sua loja de consoles e jogos antigos.
+          📍 Santa Catarina, Brasil
         </p>
 
         {/* ✅ Desenvolvedor */}

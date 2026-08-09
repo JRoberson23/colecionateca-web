@@ -9,14 +9,14 @@ export default function SocialSidebar() {
 
   return (
     <div
-      className="fixed bottom-6 left-4 z-50 flex items-center"
+      className="fixed bottom-6 left-1 z-50 flex items-center"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
       {/* Ícone principal */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center"
+        className="bg-blue-600 text-white p-5 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center"
       >
         <HiShare className="text-xl" />
       </button>
