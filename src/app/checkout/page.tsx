@@ -73,7 +73,7 @@ export default function CheckoutPage() {
           return;
         }
 
-        const response = await fetch("http://localhost:3001/enderecos", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enderecos`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -268,7 +268,7 @@ export default function CheckoutPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:3001/enderecos", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enderecos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
