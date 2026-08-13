@@ -399,8 +399,12 @@ export default function CheckoutPage() {
                         type="text"
                         placeholder="Estado (ex: SP)"
                         value={novoEndereco.estado}
-                        onChange={(e) => setNovoEndereco({...novoEndereco, estado: e.target.value.toUpperCase()})}
+                        onChange={(e) => setNovoEndereco({
+                          ...novoEndereco,
+                          estado: e.target.value.toUpperCase().slice(0, 2)
+                        })}
                         required
+                        maxLength={2}
                         className="border rounded-lg px-3 py-2 text-sm"
                       />
                       <input
