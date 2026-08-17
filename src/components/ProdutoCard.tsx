@@ -58,13 +58,13 @@ export default function ProdutoCard({
   return (
     <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow hover:scale-105 transform duration-200">
       <Link href={`/produtos/${id}`}>
-        <div className="relative w-full h-56 bg-gray-100">
+        <div className="relative w-full h-56 bg-gray-100 flex items-center justify-center">
           {imagemPrincipal ? (
             <Image
               src={imagemPrincipal}
               alt={nome}
               fill
-              className="object-cover"
+              className="object-contain p-2"
               unoptimized={imagemPrincipal?.includes('cloudinary.com')}
             />
           ) : (

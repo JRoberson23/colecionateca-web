@@ -39,6 +39,7 @@ export default function DetalheProdutoPage() {
   const [erro, setErro] = useState<string | null>(null);
   const [quantidade, setQuantidade] = useState(1);
   const { adicionarItem } = useCarrinho();
+  const [imagemAtual, setImagemAtual] = useState(0);
 
   useEffect(() => {
     async function carregarProduto() {
@@ -75,17 +76,13 @@ export default function DetalheProdutoPage() {
       <div className="text-center py-12">
         <h1 className="text-2xl font-bold text-red-600 mb-4">Produto não encontrado</h1>
         <p className="text-gray-600 mb-6">O produto que você está procurando não existe ou foi removido.</p>
-        <Link
-          href="/produtos"
-          className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
-        >
+        <Link href="/produtos" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">
           Voltar para produtos
         </Link>
       </div>
     );
   }
 
-  // ✅ Montar informações adicionais do metadata
   const informacoesAdicionais = [];
   if (produto.metadata?.console) informacoesAdicionais.push({ label: "Console", value: produto.metadata.console });
   if (produto.metadata?.ano) informacoesAdicionais.push({ label: "Ano", value: produto.metadata.ano });
@@ -96,30 +93,54 @@ export default function DetalheProdutoPage() {
 
   return (
     <div>
-      <Link
-        href="/produtos"
-        className="inline-block mb-6 text-blue-600 hover:text-blue-800 transition"
-      >
+      <Link href="/produtos" className="inline-block mb-6 text-blue-600 hover:text-blue-800 transition">
         ← Voltar para produtos
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Imagem */}
-        <div className="bg-gray-100 rounded-2xl h-96 flex items-center justify-center">
-          {produto.imagens?.[0] ? (
-            <Image
-              src={produto.imagens[0]}
-              alt={produto.nome}
-              width={400}
-              height={400}
-              className="object-contain w-full h-full"
-            />
-          ) : (
-            <div className="text-8xl text-gray-300">🎮</div>
+        <div>
+          <div className="bg-gray-100 rounded-2xl h-96 flex items-center justify-center">
+            {produto.imagens && produto.imagens.length > 0 ? (
+              <Image
+                src={produto.imagens[imagemAtual] || produto.imagens[0]}
+                alt={produto.nome}
+                width={400}
+                height={400}
+                className="object-contain w-full h-full"
+                unoptimized={produto.imagens[0]?.includes('cloudinary.com')}
+              />
+            ) : (
+              <div className="text-8xl text-gray-300">🎮</div>
+            )}
+          </div>
+
+          {/* Miniaturas */}
+          {produto.imagens && produto.imagens.length > 1 && (
+            <div className="flex gap-2 mt-4 justify-center flex-wrap">
+              {produto.imagens.map((img: string, index: number) => (
+                <button
+                  key={index}
+                  onClick={() => setImagemAtual(index)}
+                  className={`w-16 h-16 border rounded overflow-hidden transition-all ${
+                    imagemAtual === index 
+                      ? 'border-blue-500 border-2 shadow-md' 
+                      : 'border-gray-300 hover:border-gray-500'
+                  }`}
+                >
+                  <Image
+                    src={img}
+                    alt={`${produto.nome} - imagem ${index + 1}`}
+                    width={64}
+                    height={64}
+                    className="object-cover w-full h-full"
+                    unoptimized={img?.includes('cloudinary.com')}
+                  />
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Informações */}
         <div>
           <h1 className="text-3xl font-bold mb-2">{produto.nome}</h1>
           {produto.categoria && (
@@ -143,7 +164,6 @@ export default function DetalheProdutoPage() {
             )}
           </div>
 
-          {/* ✅ Informações adicionais do metadata */}
           {informacoesAdicionais.length > 0 && (
             <div className="bg-gray-50 rounded-lg p-4 mb-4">
               <h3 className="font-semibold text-sm text-gray-600 mb-2">Informações do produto:</h3>
