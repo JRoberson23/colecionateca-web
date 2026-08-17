@@ -15,7 +15,7 @@ interface Produto {
   descricao?: string;
   preco: number;
   estoque: number;
-  imagem?: string;
+  imagens: string[];
   categoria?: string;
   metadata?: {
     console?: string;
@@ -106,9 +106,9 @@ export default function DetalheProdutoPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Imagem */}
         <div className="bg-gray-100 rounded-2xl h-96 flex items-center justify-center">
-          {produto.imagem ? (
+          {produto.imagens?.[0] ? (
             <Image
-              src={produto.imagem}
+              src={produto.imagens[0]}
               alt={produto.nome}
               width={400}
               height={400}
@@ -183,7 +183,7 @@ export default function DetalheProdutoPage() {
                 produto_id: produto.id,
                 nome: produto.nome,
                 preco: produto.preco,
-                imagem: produto.imagem,
+                imagem: produto.imagens?.[0],
                 quantidade: quantidade,
                 estoque: produto.estoque,
               });

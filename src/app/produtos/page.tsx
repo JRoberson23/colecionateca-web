@@ -10,7 +10,7 @@ interface Produto {
   console?: string;
   preco: number;
   estoque: number;
-  imagem?: string;
+  imagens: string[];
   descricao?: string;
   categoria?: string;
   metadata?: {
@@ -140,7 +140,7 @@ export default function ProdutosPage() {
             nome={produto.nome}
             console={produto.metadata?.console}
             preco={produto.preco}
-            imagens={produto.imagem}
+            imagens={produto.imagens}
             descricao={produto.descricao}
             estoque={produto.estoque}
             categoria={produto.categoria}

@@ -11,7 +11,7 @@ interface ProdutoCardProps {
   nome: string;
   console?: string;
   preco: number;
-  imagens?: string;
+  imagens?: string[];
   descricao?: string;
   estoque?: number;
   categoria?: string;
@@ -34,6 +34,7 @@ export default function ProdutoCard({
   categoria,
   metadata,
 }: ProdutoCardProps) {
+  console.log('📷 Imagens recebidas:', imagens);
   const { adicionarItem } = useCarrinho();
 
   // ✅ Determina qual texto mostrar para a subcategoria
@@ -45,7 +46,7 @@ export default function ProdutoCard({
       nome: nome,
       console: consoleProp || metadata?.console,
       preco: preco,
-      imagem: imagens,
+      imagem: imagens?.[0],
       quantidade: 1,
       estoque: estoque,
     });
