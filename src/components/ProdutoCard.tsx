@@ -50,6 +50,7 @@ export default function ProdutoCard({
       quantidade: 1,
       estoque: estoque,
     });
+    alert(`${nome} adicionado ao carrinho!`);
   };
 
   //usar primeira imagem como principal
