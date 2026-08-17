@@ -138,7 +138,6 @@ export default function Header() {
         </div>
       </header>
 
-      {/* ✅ Espaçador para o conteúdo não ficar embaixo do header fixo */}
       <div className="h-[72px] sm:h-[80px]" />
 
       <CarrinhoLateral

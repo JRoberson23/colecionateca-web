@@ -7,7 +7,7 @@ export default function Sobre() {
 
   return (
     <section className="bg-gray-50 py-12 px-4 rounded-2xl mb-12 relative overflow-hidden">
-      {/* ✅ Among Us andando da esquerda para direita */}
+      {/* Animação de Among Us */}
       <div className="absolute bottom-0 left-0 pointer-events-none animate-walk mb-[-22px] md:mb-[-15px]">
         <Animation
           src={amongUsAnimation}

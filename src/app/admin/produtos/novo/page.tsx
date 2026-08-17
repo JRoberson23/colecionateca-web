@@ -96,7 +96,7 @@ export default function NovoProdutoPage() {
           descricao: form.descricao || undefined,
           preco: parseFloat(form.preco),
           estoque: parseInt(form.estoque),
-          imagens: form.imagens || undefined,
+          imagens: imagens,
           categoria: form.categoria || undefined,
           metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
           destaque: form.destaque,

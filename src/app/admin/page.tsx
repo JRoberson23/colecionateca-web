@@ -51,7 +51,7 @@ export default function AdminPage() {
     }
   }, [usuario]);
 
-  // ✅ Função para excluir produto (VERSÃO FORÇADA)
+  // ✅ Função para excluir produto
   const handleExcluir = async (id: string, nome: string) => {
     console.log('🗑️ EXCLUINDO PRODUTO - VERSÃO 2.0');
     console.log('📦 ID:', id);

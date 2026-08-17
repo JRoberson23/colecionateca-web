@@ -166,7 +166,6 @@ export default function EditarProdutoPage() {
         }
       });
 
-      // ✅ PUT em vez de POST
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`, {
         method: "PUT",
         headers: {

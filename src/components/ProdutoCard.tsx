@@ -52,7 +52,7 @@ export default function ProdutoCard({
   };
 
   //usar primeira imagem como principal
-  const imagemPrincipal = imagens && imagens.length > 0 ? imagens[0] : null;
+  const imagemPrincipal = imagens && Array.isArray(imagens) && imagens.length > 0 ? imagens[0] : null;
 
   return (
     <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow hover:scale-105 transform duration-200">
@@ -60,11 +60,14 @@ export default function ProdutoCard({
         <div className="relative w-full h-56 bg-gray-100">
           {imagemPrincipal ? (
             <Image
-              src={imagemPrincipal} alt={nome} fill className="object-contain-cover" />
-                ) : (
-            <div className="flex items-center justify-center h-full text-gray-400 text-4xl">
-              🎮
-            </div>
+              src={imagemPrincipal}
+              alt={nome}
+              fill
+              className="object-cover"
+              unoptimized={imagemPrincipal?.includes('cloudinary.com')}
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full text-gray-400 text-4xl">🎮</div>
           )}
 
           {categoria && (
