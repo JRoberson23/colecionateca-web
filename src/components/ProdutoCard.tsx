@@ -11,7 +11,7 @@ interface ProdutoCardProps {
   nome: string;
   console?: string;
   preco: number;
-  imagem?: string;
+  imagens?: string;
   descricao?: string;
   estoque?: number;
   categoria?: string;
@@ -28,7 +28,7 @@ export default function ProdutoCard({
   nome,
   console: consoleProp,
   preco,
-  imagem,
+  imagens,
   descricao,
   estoque = 0,
   categoria,
@@ -45,31 +45,28 @@ export default function ProdutoCard({
       nome: nome,
       console: consoleProp || metadata?.console,
       preco: preco,
-      imagem: imagem,
+      imagem: imagens,
       quantidade: 1,
       estoque: estoque,
     });
   };
 
+  //usar primeira imagem como principal
+  const imagemPrincipal = imagens && imagens.length > 0 ? imagens[0] : null;
+
   return (
     <div className="bg-white border rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow hover:scale-105 transform duration-200">
       <Link href={`/produtos/${id}`}>
         <div className="relative w-full h-56 bg-gray-100">
-          {imagem ? (
+          {imagemPrincipal ? (
             <Image
-              src={imagem}
-              alt={nome}
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              quality={100}
-              unoptimized={imagem?.includes("cloudinary.com")}
-            />
-          ) : (
+              src={imagemPrincipal} alt={nome} fill className="object-contain-cover" />
+                ) : (
             <div className="flex items-center justify-center h-full text-gray-400 text-4xl">
               🎮
             </div>
           )}
+
           {categoria && (
             <span className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
               {categoria}

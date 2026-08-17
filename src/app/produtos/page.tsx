@@ -26,6 +26,7 @@ export default function ProdutosPage() {
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
   const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
+  const [ imagemAtual, setImagemAtual ] = useState(0);
 
   useEffect(() => {
     async function carregarProdutos() {
@@ -139,7 +140,7 @@ export default function ProdutosPage() {
             nome={produto.nome}
             console={produto.metadata?.console}
             preco={produto.preco}
-            imagem={produto.imagem}
+            imagens={produto.imagem}
             descricao={produto.descricao}
             estoque={produto.estoque}
             categoria={produto.categoria}

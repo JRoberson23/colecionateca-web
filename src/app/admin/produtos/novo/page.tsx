@@ -21,7 +21,7 @@ interface FormData {
   descricao: string;
   preco: string;
   estoque: string;
-  imagem: string;
+  imagens: string;
   categoria: string;
   metadata: Metadata;
   destaque: boolean;
@@ -31,6 +31,7 @@ export default function NovoProdutoPage() {
   const router = useRouter();
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
+  const [imagens, setImagens] = useState<string[]>([]);
   const [carregandoUpload, setCarregandoUpload] = useState(false);
 
   const [form, setForm] = useState<FormData>({
@@ -38,7 +39,7 @@ export default function NovoProdutoPage() {
     descricao: "",
     preco: "",
     estoque: "",
-    imagem: "",
+    imagens: "",
     categoria: "",
     metadata: {
       console: "",
@@ -95,7 +96,7 @@ export default function NovoProdutoPage() {
           descricao: form.descricao || undefined,
           preco: parseFloat(form.preco),
           estoque: parseInt(form.estoque),
-          imagem: form.imagem || undefined,
+          imagens: form.imagens || undefined,
           categoria: form.categoria || undefined,
           metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
           destaque: form.destaque,
@@ -115,26 +116,21 @@ export default function NovoProdutoPage() {
     }
   };
 
-  // ✅ Upload de imagem
-const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+// ✅ Upload de múltiplas imagens
+const handleUploadImagens = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const files = e.target.files;
+  if (!files || files.length === 0) return;
 
-  // Validar tamanho (max 5MB)
-  if (file.size > 5 * 1024 * 1024) {
-    alert("A imagem deve ter no máximo 5MB.");
-    return;
-  }
-
-  // Validar tipo
-  const tiposPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-  if (!tiposPermitidos.includes(file.type)) {
-    alert("Formato de imagem não suportado. Use JPG, PNG, GIF ou WEBP.");
+  // Verificar se não excede 5
+  if (imagens.length + files.length > 5) {
+    alert('Você pode adicionar no máximo 5 imagens.');
     return;
   }
 
   const formData = new FormData();
-  formData.append('imagem', file);
+  for (let i = 0; i < files.length; i++) {
+    formData.append('imagens', files[i]);
+  }
 
   setCarregandoUpload(true);
 
@@ -150,17 +146,22 @@ const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
     if (!response.ok) {
       const data = await response.json();
-      throw new Error(data.message || "Erro ao enviar imagem");
+      throw new Error(data.message || "Erro ao enviar imagens");
     }
 
     const data = await response.json();
-    setForm((prev) => ({ ...prev, imagem: data.imageUrl }));
+    setImagens([...imagens, ...data.imageUrls]);
   } catch (error) {
-    console.error("Erro ao enviar imagem:", error);
-    alert(error instanceof Error ? error.message : "Erro ao enviar imagem");
+    console.error("Erro ao enviar imagens:", error);
+    alert(error instanceof Error ? error.message : "Erro ao enviar imagens");
   } finally {
     setCarregandoUpload(false);
   }
+};
+
+// ✅ Remover uma imagem
+const removerImagem = (index: number) => {
+  setImagens(imagens.filter((_, i) => i !== index));
 };
 
   return (
@@ -179,7 +180,6 @@ const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
       )}
 
       <form onSubmit={handleSubmit} className="bg-white border rounded-lg p-6 shadow-sm space-y-4">
-        {/* ... resto do formulário ... */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nome *</label>
           <input
@@ -230,32 +230,43 @@ const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
 
         {/* ✅ Campo de upload de imagem */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Imagem do Produto</label>
-          <div className="flex items-center gap-4">
-            {form.imagem && (
-              <div className="relative w-24 h-24 flex-shrink-0">
-                <img
-                  src={form.imagem}
-                  alt="Preview"
-                  className="w-full h-full object-cover rounded-lg border"
-                />
-              </div>
-            )}
-            <div className="flex-1">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleUploadImagem}
-                disabled={carregandoUpload}
-                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-              />
-              {carregandoUpload && (
-                <p className="text-sm text-blue-600 mt-1">📤 Enviando imagem...</p>
-              )}
-              <p className="text-xs text-gray-400 mt-1">Formatos: JPG, PNG, GIF, WEBP (max 5MB)</p>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Imagens do Produto (máx. 5)
+        </label>
+        
+        {/* Prévia das imagens */}
+        <div className="flex flex-wrap gap-2 mb-2">
+          {imagens.map((img, index) => (
+            <div key={index} className="relative w-20 h-20 border rounded">
+              <img src={img} alt={`Produto ${index}`} className="w-full h-full object-cover rounded" />
+              <button
+                type="button"
+                onClick={() => removerImagem(index)}
+                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
+              >
+                ✕
+              </button>
             </div>
-          </div>
+          ))}
         </div>
+
+        {imagens.length < 5 && (
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleUploadImagens}
+            disabled={carregandoUpload}
+            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          />
+        )}
+        {carregandoUpload && (
+          <p className="text-sm text-blue-600 mt-1">📤 Enviando imagens...</p>
+        )}
+        <p className="text-xs text-gray-400 mt-1">
+          {imagens.length}/5 imagens • Formatos: JPG, PNG, GIF, WEBP (max 5MB cada)
+        </p>
+      </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
