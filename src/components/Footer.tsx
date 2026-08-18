@@ -41,22 +41,23 @@ export default function Footer() {
                 com 🖥️ e ☕
             </div>
           </div>
-
-          {/* ✅ WhatsApp */}
-          <div className="flex justify-center mt-1 gap-2 ml-0 md:ml-10">
-            <a
-              href="https://wa.me/5511950768793?text=Olá,%20adorei%20o%20trabalho%20na%20Colecionateca.%20Gostaria%20de%20um%20orçamento."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-300 hover:text-white hover:scale-105 transition duration-300"
-            >
-              <p className="text-sm md:text-base">
-                Fale comigo!
-              </p>
-              <FaWhatsapp className="text-2xl text-green-500" />
-            </a>
-          </div>
         </div>
+
+        {/* ✅ WhatsApp */}
+        <div className="flex justify-center mt-1 gap-2 ml-0 md:ml-10">
+          <a
+            href="https://wa.me/5511950768793?text=Olá,%20adorei%20o%20trabalho%20na%20Colecionateca.%20Gostaria%20de%20um%20orçamento."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-gray-300 hover:text-white hover:scale-105 transition duration-300"
+          >
+            <p className="text-sm md:text-base">
+              Fale comigo!
+            </p>
+            <FaWhatsapp className="text-2xl text-green-500" />
+          </a>
+        </div>
+        
       </div>
     </footer>
   );
