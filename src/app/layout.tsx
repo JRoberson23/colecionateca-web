@@ -19,47 +19,47 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Colecionateca - Loja de Consoles e Jogos Antigos",
-    template: "%s | Colecionateca"
+    default: "Roberson Store - E-commerce de Demonstração",
+    template: "%s | Roberson Store"
   },
-  description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
-  keywords: "consoles antigos, jogos retro, SNES, Nintendo 64, Mega Drive, colecionador, jogos clássicos",
-  authors: [{ name: "Colecionateca" }],
-  creator: "Colecionateca",
-  publisher: "Colecionateca",
+  description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack. Explore consoles, jogos e colecionáveis!",
+  keywords: "e-commerce, demo, desenvolvimento, full-stack, nextjs, react, typescript, consoles, jogos",
+  authors: [{ name: "Roberson Junior" }],
+  creator: "Roberson Junior",
+  publisher: "Roberson Junior",
   robots: "index, follow",
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: "https://colecionateca.vercel.app",
-    title: "Colecionateca - Loja de Consoles e Jogos Antigos",
-    description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
-    siteName: "Colecionateca",
+    url: "https://roberson-store.vercel.app",
+    title: "Roberson Store - E-commerce de Demonstração",
+    description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack.",
+    siteName: "Roberson Store",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Colecionateca - Loja de Consoles Antigos",
+        alt: "Roberson Store - E-commerce de Demonstração",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Colecionateca - Loja de Consoles e Jogos Antigos",
-    description: "A Colecionateca é a sua loja de consoles e jogos antigos. Encontre clássicos do SNES, Nintendo 64, Mega Drive e muito mais!",
+    title: "Roberson Store - E-commerce de Demonstração",
+    description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack.",
     images: ["/images/og-image.jpg"],
   },
   icons: {
-  icon: [
-    { url: "/favicon.ico" },
-    { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-    { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-  ],
-  apple: [
-    { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-  ],
-},
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   manifest: "/site.webmanifest",
 };
 

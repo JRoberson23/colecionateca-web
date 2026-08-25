@@ -28,7 +28,7 @@ export default function SocialSidebar() {
         }`}
       >
         <a
-          href="https://www.instagram.com/colecionateca/"
+          href="https://www.instagram.com/roberson.tech/"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-pink-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 flex items-center justify-center"
@@ -36,7 +36,7 @@ export default function SocialSidebar() {
           <FaInstagram className="text-lg" />
         </a>
         <a
-          href="https://www.youtube.com/@Colecionateca"
+          href="https://www.youtube.com/@blutbadjr2474"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-red-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 flex items-center justify-center"
@@ -44,7 +44,7 @@ export default function SocialSidebar() {
           <FaYoutube className="text-lg" />
         </a>
         <a
-          href="https://wa.me/554784697625"
+          href="https://wa.me/5511950768793"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-green-500 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 flex items-center justify-center"
@@ -52,7 +52,7 @@ export default function SocialSidebar() {
           <FaWhatsapp className="text-lg" />
         </a>
         <a
-          href="mailto:colecionateca@gmail.com"
+          href="mailto:jroberson.junior@outlook.com"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gray-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 flex items-center justify-center"
@@ -60,7 +60,7 @@ export default function SocialSidebar() {
           <FaEnvelope className="text-lg" />
         </a>
         <a
-          href="https://www.google.com/maps/place/Santa+Catarina"
+          href="https://www.google.com/maps/place/Sao+Paulo"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-yellow-600 text-white p-3 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 flex items-center justify-center"

@@ -8,13 +8,13 @@ export default function Footer() {
     <footer className="bg-gray-800 text-white px-4 py-6 mt-auto">
       <div className="container mx-auto text-center">
         <p className="text-sm md:text-base">
-          © {new Date().getFullYear()} Colecionateca. Todos os direitos reservados.
+          © {new Date().getFullYear()} Roberson Store. Todos os direitos reservados.
         </p>
         <p className="text-xs md:text-sm text-gray-400 mt-1">
-          Sua loja de consoles e jogos antigos.
+          🚀 E-COMMERCE DE DEMONSTRAÇÃO
         </p>
         <p className="text-xs md:text-sm text-gray-400 mt-1">
-          📍 Santa Catarina, Brasil
+          📍 São Paulo, Brasil
         </p>
 
         {/* ✅ Desenvolvedor */}
@@ -46,7 +46,7 @@ export default function Footer() {
         {/* ✅ WhatsApp */}
         <div className="flex justify-center mt-1 gap-2 ml-0 md:ml-10">
           <a
-            href="https://wa.me/5511950768793?text=Olá,%20adorei%20o%20trabalho%20na%20Colecionateca.%20Gostaria%20de%20um%20orçamento."
+            href="https://wa.me/5511950768793?text=Olá,%20adorei%20o%20trabalho%20na%20Roberson%20Store.%20Gostaria%20de%20um%20orçamento."
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-gray-300 hover:text-white hover:scale-105 transition duration-300"

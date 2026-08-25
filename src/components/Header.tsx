@@ -58,7 +58,7 @@ export default function Header() {
               loop={true}
               autoplay={true}
             />
-            <span>Colecionateca</span>
+            <span>Roberson Store</span>
           </Link>
           <nav className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base">
             <Link
