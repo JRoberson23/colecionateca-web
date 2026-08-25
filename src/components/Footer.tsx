@@ -11,7 +11,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Roberson Store. Todos os direitos reservados.
         </p>
         <p className="text-xs md:text-sm text-gray-400 mt-1">
-          🚀 E-COMMERCE DE DEMONSTRAÇÃO
+          🚀 Site de demonstração e portfólio. Nenhuma venda real é realizada.
         </p>
         <p className="text-xs md:text-sm text-gray-400 mt-1">
           📍 São Paulo, Brasil
