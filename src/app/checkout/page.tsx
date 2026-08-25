@@ -35,6 +35,7 @@ export default function CheckoutPage() {
   const [enderecoSelecionado, setEnderecoSelecionado] = useState<string>("");
   const [metodoPagamento, setMetodoPagamento] = useState<string>("cartao");
   const [carregando, setCarregando] = useState(false);
+  const [mostrarAviso, setMostrarAviso] =useState(false);
   
   // ✅ Estados para endereços reais
   const [enderecos, setEnderecos] = useState<Endereco[]>([]);
@@ -125,9 +126,20 @@ export default function CheckoutPage() {
     );
   }
 
+  const handleAbrirAviso = () => {
+    setMostrarAviso(true);
+  }
+
   const handleFinalizarPedido = async () => {
+
+    setMostrarAviso(false);
+
     if (!enderecoSelecionado) {
       alert("Selecione um endereço de entrega.");
+      return;
+    }
+
+    if (!confirm("⚠️ ATENÇÃO: Este é um site de demonstração. Nenhum produto será enviado. Deseja continuar?")){
       return;
     }
 
@@ -559,7 +571,7 @@ export default function CheckoutPage() {
             </div>
 
             <button
-              onClick={handleFinalizarPedido}
+              onClick={handleAbrirAviso}
               disabled={carregando}
               className={`w-full mt-6 py-3 rounded-lg text-white font-semibold transition ${
                 carregando ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
@@ -577,6 +589,58 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+      {/* ⚠️ Modal de Aviso */}
+      {mostrarAviso && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-6 transform transition-all">
+            {/* Título */}
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-bold text-yellow-600 flex items-center gap-2">
+                <span>⚠️</span> Atenção!
+              </h3>
+              <button
+                onClick={() => setMostrarAviso(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Conteúdo */}
+            <div className="space-y-4">
+              <p className="text-gray-700">
+                <strong>Este é um site de demonstração e portfólio.</strong>
+              </p>
+              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <ul className="text-sm text-gray-600 space-y-2">
+                  <li>🔹 Nenhum produto será enviado</li>
+                  <li>🔹 Os pagamentos são simulados em ambiente de testes</li>
+                  <li>🔹 Se você deseja apoiar este projeto, entre em contato pelo WhatsApp</li>
+                </ul>
+              </div>
+              <p className="text-xs text-gray-500 italic">
+                Ao continuar, você confirma que entende que este é um site de demonstração.
+              </p>
+            </div>
+
+            {/* Botões */}
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={handleFinalizarPedido}
+                className="flex-1 bg-green-600 text-white py-2.5 rounded-lg font-semibold hover:bg-green-700 transition"
+              >
+                Sim, continuar 🚀
+              </button>
+              <button
+                onClick={() => setMostrarAviso(false)}
+                className="flex-1 bg-gray-200 text-gray-700 py-2.5 rounded-lg font-semibold hover:bg-gray-300 transition"
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
