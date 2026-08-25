@@ -153,7 +153,7 @@ export default function CheckoutPage() {
           preco_unitario: item.preco,
           subtotal: item.preco * item.quantidade,
         })),
-        endereco: enderecoSelecionado,
+        endereco_id: enderecoSelecionado,
         frete: valorFrete,
         metodo_pagamento: metodoPagamento,
       };
