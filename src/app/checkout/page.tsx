@@ -158,7 +158,7 @@ export default function CheckoutPage() {
         metodo_pagamento: metodoPagamento,
       };
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pedidos`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout/pagar`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
