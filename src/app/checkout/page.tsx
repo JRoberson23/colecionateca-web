@@ -127,6 +127,14 @@ export default function CheckoutPage() {
   }
 
   const handleAbrirAviso = () => {
+    if (freteSelecionado === null || valorFrete === 0){
+      alert("⚠️ Por favor, calcule e selecione uma opção de frete antes de finalizar");
+      return
+    }
+    if (opcoesFrete.length === 0){
+      alert("⚠️ Nenhuma opção de frete disponível. Verifique o CEP informado.");
+      return
+    }
     setMostrarAviso(true);
   }
 
