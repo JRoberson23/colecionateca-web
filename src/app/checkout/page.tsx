@@ -127,13 +127,25 @@ export default function CheckoutPage() {
   }
 
   const handleAbrirAviso = () => {
-    if (freteSelecionado === null || valorFrete === 0){
-      alert("⚠️ Por favor, calcule e selecione uma opção de frete antes de finalizar");
+    if (!enderecoSelecionado) {
+      alert("⚠️ Por favor, selecione um endereço de entrega.");
+      return;
+    }
+    if(itens.length === 0) {
+      alert("⚠️ Seu carrinho está vazio. Adicione um produto antes de finalizar.");
+      return;
+    }
+    if (freteSelecionado === null || valorFrete === 0) {
+      alert("⚠️ Por favor, selecione uma opção de frete antes de finalizar");
       return
     }
-    if (opcoesFrete.length === 0){
+    if (opcoesFrete.length === 0) {
       alert("⚠️ Nenhuma opção de frete disponível. Verifique o CEP informado.");
       return
+    }
+    if (freteSelecionado <= 0) {
+      alert("⚠️ O valor do frete não é válido. Por favor recalcule o frete.");
+      return;
     }
     setMostrarAviso(true);
   }
