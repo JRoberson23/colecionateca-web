@@ -19,11 +19,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Roberson Store - E-commerce de Demonstração",
+    default: "Roberson Store - Solução Completa para seu E-commerce",
     template: "%s | Roberson Store"
   },
-  description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack. Explore consoles, jogos e colecionáveis!",
-  keywords: "e-commerce, demo, desenvolvimento, full-stack, nextjs, react, typescript, consoles, jogos",
+  description: "Solução completa para sua loja virtual. Roberson Store é uma plataforma de e-commerce profissional com pagamento, frete e gestão de produtos integrados.",
+  keywords: "e-commerce, loja virtual, plataforma de vendas, pagamento online, frete, gestão de produtos, nextjs, react",
   authors: [{ name: "Roberson Junior" }],
   creator: "Roberson Junior",
   publisher: "Roberson Junior",
@@ -32,22 +32,22 @@ export const metadata: Metadata = {
     type: "website",
     locale: "pt_BR",
     url: "https://roberson-store.vercel.app",
-    title: "Roberson Store - E-commerce de Demonstração",
-    description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack.",
+    title: "Roberson Store - Solução Completa para seu E-commerce",
+    description: "Solução completa para sua loja virtual. Roberson Store é uma plataforma de e-commerce profissional com pagamento, frete e gestão de produtos integrados.",
     siteName: "Roberson Store",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Roberson Store - E-commerce de Demonstração",
+        alt: "Roberson Store - Solução em E-commerce",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Roberson Store - E-commerce de Demonstração",
-    description: "A Roberson Store é um e-commerce de demonstração desenvolvido para mostrar habilidades full-stack.",
+    title: "Roberson Store - Solução Completa para seu E-commerce",
+    description: "Solução completa para sua loja virtual. Roberson Store é uma plataforma de e-commerce profissional com pagamento, frete e gestão de produtos integrados.",
     images: ["/images/og-image.jpg"],
   },
   icons: {
