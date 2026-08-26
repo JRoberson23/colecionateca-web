@@ -21,7 +21,7 @@ export default function Hero() {
 
       {/* ✅ Conteúdo */}
       <div className="relative z-10 text-center text-white px-4 max-w-4xl">
-        <div className="inline-block text-white px-4 py-1 rounded-full text-sm font-bold mb-4 backdrop-blur-sm">
+        <div className="inline-block text-white px-4 py-1 rounded-full text-sm font-bold mb-4 mt-2 backdrop-blur-sm">
           🚀 E-COMMERCE DE DEMONSTRAÇÃO
         </div>
         
@@ -58,13 +58,13 @@ export default function Hero() {
         <div className="flex flex-wrap justify-center gap-4">
           <Link
             href="/produtos"
-            className="bg-white text-blue-600 px-6 py-3 md:px-8 md:py-3 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg inline-block text-sm md:text-base"
+            className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 md:px-8 md:py-3 mb- rounded-full font-semibold hover:bg-white/30 transition shadow-lg inline-block text-sm md:text-base border border-white/30"
           >
             Explorar Produtos →
           </Link>
           <Link
             href="#sobre"
-            className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 md:px-8 md:py-3 mb-3 rounded-full font-semibold hover:bg-white/30 transition shadow-lg inline-block text-sm md:text-base border border-white/30"
+            className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 md:px-8 md:py-3 mb-2 rounded-full font-semibold hover:bg-white/30 transition shadow-lg inline-block text-sm md:text-base border border-white/30"
           >
             💼 Sobre o Projeto
           </Link>
