@@ -20,7 +20,7 @@ export default function Sobre() {
       <div className="container mx-auto text-center max-w-4xl px-4 relative z-10">
         {/* Badge */}
         <div className="inline-block bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-bold mb-4">
-          💼 PORTFÓLIO
+          💼 Sobre o Projeto
         </div>
 
         <h2 className="text-2xl md:text-3xl font-bold text-blue-600 mb-6">

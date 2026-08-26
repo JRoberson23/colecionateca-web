@@ -18,7 +18,7 @@ export default function Footer() {
         </p>
 
         {/* ✅ Desenvolvedor */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-3 mt-6 pt-6 border-t border-gray-700">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-3 mt-1 pt-6 border-t border-gray-700">
           <div className="flex items-center gap-3">
             <span className="text-sm md:text-base text-gray-300 font-bold">
               Desenvolvido por
@@ -44,12 +44,12 @@ export default function Footer() {
         </div>
 
         {/* ✅ WhatsApp */}
-        <div className="flex justify-center mt-1 gap-2 ml-0 md:ml-10">
+        <div className="flex justify-center mt-6 gap-3 ml-10 md:ml-10">
           <a
             href="https://wa.me/5511950768793?text=Olá,%20adorei%20o%20trabalho%20na%20Roberson%20Store.%20Gostaria%20de%20um%20orçamento."
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-gray-300 hover:text-white hover:scale-105 transition duration-300"
+            className="flex items-center gap-2 text-gray-300 hover:text-white hover:scale-105 transition duration-300 relative z-10"
           >
             <p className="text-sm md:text-base">
               Fale comigo!

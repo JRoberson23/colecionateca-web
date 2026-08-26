@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden rounded-2xl mb-12">
+    <section className="relative min-h-[400px] md:min-h-[500px] flex items-center justify-center overflow-hidden rounded-2xl mb-12">
       {/* ✅ Vídeo de fundo */}
       <video
         autoPlay
@@ -64,7 +64,7 @@ export default function Hero() {
           </Link>
           <Link
             href="#sobre"
-            className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 md:px-8 md:py-3 rounded-full font-semibold hover:bg-white/30 transition shadow-lg inline-block text-sm md:text-base border border-white/30"
+            className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 md:px-8 md:py-3 mb-3 rounded-full font-semibold hover:bg-white/30 transition shadow-lg inline-block text-sm md:text-base border border-white/30"
           >
             💼 Sobre o Projeto
           </Link>
