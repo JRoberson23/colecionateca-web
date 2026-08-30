@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import { CarrinhoProvider } from "../contexts/CarrinhoContext";
 import { AuthProvider } from "../contexts/AuthContext";
 import SocialSidebar from "../components/SocialSidebar";
+import Chatbot from "../components/Chatbot/Chatbot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,6 +82,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <SocialSidebar />
+            <Chatbot />
           </CarrinhoProvider>
         </AuthProvider>
       </body>
