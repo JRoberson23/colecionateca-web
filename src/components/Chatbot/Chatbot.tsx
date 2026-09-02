@@ -28,19 +28,22 @@ export default function Chatbot() {
     mensagensFimRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [mensagens]);
 
-  // ✅ Função para encontrar a resposta
-  const encontrarResposta = (mensagem: string): string => {
+  // ✅ Função para encontrar a resposta E a ação
+  const encontrarRespostaComAcao = (mensagem: string): { resposta: string; acao?: string } => {
     const mensagemLower = mensagem.toLowerCase();
 
     for (const item of respostas) {
       for (const palavra of item.palavrasChave) {
         if (mensagemLower.includes(palavra)) {
-          return item.resposta;
+          return { resposta: item.resposta, acao: item.acao };
         }
       }
     }
 
-    return "🤔 Desculpe, não entendi sua pergunta. Tente perguntar sobre: produtos, frete, pagamento, contato ou sobre a loja.";
+    return {
+      resposta: "🤔 Desculpe, não entendi sua pergunta. Tente perguntar sobre: produtos, frete, pagamento, contato ou sobre a loja.",
+      acao: undefined,
+    };
   };
 
   // ✅ Função para enviar mensagem
@@ -64,8 +67,8 @@ export default function Chatbot() {
     // Simular atraso de processamento
     await new Promise((resolve) => setTimeout(resolve, 400));
 
-    // Gerar resposta
-    const resposta = encontrarResposta(mensagemUsuario);
+    // Gerar resposta E ação
+    const { resposta, acao } = encontrarRespostaComAcao(mensagemUsuario);
 
     // Adicionar resposta do bot
     setMensagens((prev) => [
@@ -76,6 +79,15 @@ export default function Chatbot() {
         timestamp: new Date(),
       },
     ]);
+
+    // ✅ Executar ação (redirecionamento) se houver
+    if (acao === "produtos") {
+      window.location.href = "/produtos";
+    } else if (acao === "frete") {
+      window.location.href = "/checkout";
+    } else if (acao === "admin") {
+      window.location.href = "/admin";
+    }
 
     setCarregando(false);
   };
@@ -104,7 +116,8 @@ export default function Chatbot() {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="fixed bottom-20 right-4 z-50 w-[270px] sm:w-80 md:w-96 h-[300px] sm:h-[400px] md:h-[450px] bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">            {/* Cabeçalho */}
+          <div className="fixed bottom-20 right-4 z-50 w-[270px] sm:w-80 md:w-96 h-[300px] sm:h-[400px] md:h-[450px] bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
+            {/* Cabeçalho */}
             <div className="bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-lg">🤖</span>
@@ -132,9 +145,8 @@ export default function Chatbot() {
                         ? "bg-blue-600 text-white rounded-br-none"
                         : "bg-white text-gray-800 border border-gray-200 rounded-bl-none shadow-sm"
                     }`}
-                  >
-                    {msg.texto}
-                  </div>
+                    dangerouslySetInnerHTML={{ __html: msg.texto }}
+                  />
                 </div>
               ))}
               {carregando && (
