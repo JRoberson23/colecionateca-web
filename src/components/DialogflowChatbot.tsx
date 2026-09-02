@@ -49,12 +49,10 @@ export default function DialogflowChatbot() {
     ]);
 
     try {
-      const token = localStorage.getItem("token");
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chatbot/mensagem`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ mensagem: mensagemUsuario }),
       });
