@@ -67,8 +67,8 @@ export default function Chatbot() {
     // Simular atraso de processamento
     await new Promise((resolve) => setTimeout(resolve, 400));
 
-    // Gerar resposta E ação
-    const { resposta, acao } = encontrarRespostaComAcao(mensagemUsuario);
+    // Gerar resposta
+    const { resposta } = encontrarRespostaComAcao(mensagemUsuario);
 
     // Adicionar resposta do bot
     setMensagens((prev) => [
@@ -79,15 +79,6 @@ export default function Chatbot() {
         timestamp: new Date(),
       },
     ]);
-
-    // ✅ Executar ação (redirecionamento) se houver
-    if (acao === "produtos") {
-      window.location.href = "/produtos";
-    } else if (acao === "frete") {
-      window.location.href = "/checkout";
-    } else if (acao === "admin") {
-      window.location.href = "/admin";
-    }
 
     setCarregando(false);
   };
