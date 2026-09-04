@@ -60,7 +60,7 @@ export const respostas: RespostaChat[] = [
         acao: "doacao",
     },
 
-    // VENDER MEU SITE (CAPTURAR CLIENTES)
+    // VENDER MEU SITE
     {
         palavrasChave: ["quero um site igual a esse", "quero um site assim", "você faz sites", "contratar", "quanto custa um site", "me ajuda a criar uma loja", "trabalha com desenvolvimento", "sites profissionais", "criação de site", "site personalizado", "faz site", "desenvolve site", "sistema de ecommerce", "loja virtual", "preço do site", "orçamento", "gostei do projeto", "quero ter um site desses", "vende site", "cria sites", "dev", "programador", "freelancer", "quero contratar"],
         resposta: `🚀 Que legal que você gostou do projeto!

@@ -131,7 +131,7 @@ export default function Chatbot() {
                   className={`flex ${msg.ehUsuario ? "justify-end" : "justify-start"}`}
                 >
                   <div
-                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm ${
+                    className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm whitespace-pre-line ${
                       msg.ehUsuario
                         ? "bg-blue-600 text-white rounded-br-none"
                         : "bg-white text-gray-800 border border-gray-200 rounded-bl-none shadow-sm"
