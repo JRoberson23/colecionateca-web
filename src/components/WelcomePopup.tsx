@@ -20,7 +20,8 @@ export default function WelcomePopup() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const jaVisitou = localStorage.getItem("roberson-store-visitou");
+      // sessionStorage: aparece a cada nova aba
+      const jaVisitou = sessionStorage.getItem("roberson-store-visitou");
 
       if (!jaVisitou) {
         setIsOpen(true);
@@ -29,11 +30,12 @@ export default function WelcomePopup() {
     }, 0);
 
     return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Fechar o popup
   const fecharPopup = () => {
-    localStorage.setItem("roberson-store-visitou", "true");
+    // sessionStorage: aparece a cada nova aba
+    sessionStorage.setItem("roberson-store-visitou", "true");
     setIsOpen(false);
   };
 
@@ -43,14 +45,36 @@ export default function WelcomePopup() {
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md">
       <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-8 transform transition-all">
 
-        {/* Ícone de boas-vindas */}
+        {/* Cabeçalho */}
         <div className="text-center mb-6">
           <div className="text-6xl mb-3">👋</div>
           <h1 className="text-2xl md:text-3xl font-bold text-blue-600 mb-2">
             Bem-vindo à Roberson Store!
           </h1>
-          <p className="text-gray-500 text-sm">
-            E-commerce de Demonstração
+          <p className="text-gray-500 text-sm">E-commerce de Demonstração</p>
+        </div>
+
+        {/* ⚡ ANIMAÇÃO DE CARREGAMENTO ⚡ */}
+        <div className="flex flex-col items-center justify-center mb-6">
+          <div className="relative w-20 h-20">
+            {/* Anel externo (cinza) */}
+            <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+
+            {/* Anel girando (azul) */}
+            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-600 border-r-blue-600 animate-spin"></div>
+
+            {/* Ícone no centro */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              {carregando ? (
+                <span className="text-2xl animate-pulse">🚀</span>
+              ) : (
+                <span className="text-2xl">✅</span>
+              )}
+            </div>
+          </div>
+
+          <p className="text-sm text-gray-500 mt-3">
+            {carregando ? "Preparando o ambiente..." : "Tudo pronto! 🎉"}
           </p>
         </div>
 
@@ -65,21 +89,6 @@ export default function WelcomePopup() {
             <li>📦 Os produtos são fictícios</li>
             <li>🚀 Explore tudo à vontade!</li>
           </ul>
-        </div>
-
-        {/* Status do carregamento */}
-        <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mb-6">
-          {carregando ? (
-            <>
-              <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-              <span>Preparando o ambiente...</span>
-            </>
-          ) : (
-            <>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>Tudo pronto! 🎉</span>
-            </>
-          )}
         </div>
 
         {/* Botão */}
