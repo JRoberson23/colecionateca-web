@@ -7,6 +7,7 @@ import { CarrinhoProvider } from "../contexts/CarrinhoContext";
 import { AuthProvider } from "../contexts/AuthContext";
 import SocialSidebar from "../components/SocialSidebar";
 import Chatbot from "../components/Chatbot/Chatbot";
+import WelcomePopup from "../components/WelcomePopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,6 +78,7 @@ export default function RootLayout({
         <AuthProvider>
           <CarrinhoProvider>
             <Header />
+            <WelcomePopup />
             <main className="flex-1 container mx-auto px-4 py-8">
               {children}
             </main>
