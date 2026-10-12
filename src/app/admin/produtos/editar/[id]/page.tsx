@@ -21,7 +21,7 @@ interface FormData {
   descricao: string;
   preco: string;
   estoque: string;
-  imagem: string;
+  imagens: string[];
   categoria: string;
   metadata: Metadata;
   destaque: boolean;
@@ -41,7 +41,7 @@ export default function EditarProdutoPage() {
     descricao: "",
     preco: "",
     estoque: "",
-    imagem: "",
+    imagens: [],
     categoria: "",
     metadata: {
       console: "",
@@ -68,7 +68,7 @@ export default function EditarProdutoPage() {
           descricao: data.descricao || "",
           preco: data.preco?.toString() || "",
           estoque: data.estoque?.toString() || "",
-          imagem: data.imagem || "",
+          imagens: Array.isArray(data.imagens) ? data.imagens : [],
           categoria: data.categoria || "",
           metadata: {
             console: data.metadata?.console || "",
@@ -102,24 +102,28 @@ export default function EditarProdutoPage() {
     }
   };
 
-  // ✅ Upload de imagem
+  // ✅ Upload de MÚLTIPLAS imagens
   const handleUploadImagem = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      alert("A imagem deve ter no máximo 5MB.");
-      return;
-    }
-
-    const tiposPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    if (!tiposPermitidos.includes(file.type)) {
-      alert("Formato de imagem não suportado. Use JPG, PNG, GIF ou WEBP.");
-      return;
+    // Validar tamanho e tipo
+    for (const file of Array.from(files)) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`A imagem ${file.name} deve ter no máximo 5MB.`);
+        return;
+      }
+      const tiposPermitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!tiposPermitidos.includes(file.type)) {
+        alert(`Formato de ${file.name} não suportado. Use JPG, PNG, GIF ou WEBP.`);
+        return;
+      }
     }
 
     const formData = new FormData();
-    formData.append('imagem', file);
+    Array.from(files).forEach((file) => {
+      formData.append('imagens', file);
+    });
 
     setCarregandoUpload(true);
 
@@ -135,17 +139,44 @@ export default function EditarProdutoPage() {
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.message || "Erro ao enviar imagem");
+        throw new Error(data.message || "Erro ao enviar imagens");
       }
 
       const data = await response.json();
-      setForm((prev) => ({ ...prev, imagem: data.imageUrl }));
+      
+      // ✅ ADICIONA as novas imagens ao array existente (não substitui!)
+      setForm((prev) => ({
+        ...prev,
+        imagens: [...prev.imagens, ...data.imageUrls],
+      }));
+
+      // Limpa o input para poder subir mais imagens depois
+      e.target.value = "";
     } catch (error) {
-      console.error("Erro ao enviar imagem:", error);
-      alert(error instanceof Error ? error.message : "Erro ao enviar imagem");
+      console.error("Erro ao enviar imagens:", error);
+      alert(error instanceof Error ? error.message : "Erro ao enviar imagens");
     } finally {
       setCarregandoUpload(false);
     }
+  };
+
+  // ✅ Remover imagem específica
+  const removerImagem = (index: number) => {
+    setForm((prev) => ({
+      ...prev,
+      imagens: prev.imagens.filter((_, i) => i !== index),
+    }));
+  };
+
+  // ✅ Definir imagem como principal (mover para o índice 0)
+  const definirComoPrincipal = (index: number) => {
+    if (index === 0) return;
+    setForm((prev) => {
+      const novas = [...prev.imagens];
+      const [img] = novas.splice(index, 1);
+      novas.unshift(img);
+      return { ...prev, imagens: novas };
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -177,7 +208,7 @@ export default function EditarProdutoPage() {
           descricao: form.descricao || undefined,
           preco: parseFloat(form.preco),
           estoque: parseInt(form.estoque),
-          imagem: form.imagem || undefined,
+          imagens: form.imagens,
           categoria: form.categoria || undefined,
           metadata: Object.keys(metadata).length > 0 ? metadata : undefined,
           destaque: form.destaque,
@@ -197,7 +228,6 @@ export default function EditarProdutoPage() {
     }
   };
 
-  // ✅ Mostrar loading enquanto carrega o produto
   if (carregandoProduto) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
@@ -206,7 +236,7 @@ export default function EditarProdutoPage() {
     );
   }
 
-  if (erro) {
+  if (erro && !form.nome) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
         <p className="text-red-600 text-lg">{erro}</p>
@@ -275,33 +305,76 @@ export default function EditarProdutoPage() {
           </div>
         </div>
 
-        {/* ✅ Campo de upload de imagem */}
+        {/* ✅ GALERIA DE IMAGENS */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Imagem do Produto</label>
-          <div className="flex items-center gap-4">
-            {form.imagem && (
-              <div className="relative w-24 h-24 flex-shrink-0">
-                <img
-                  src={form.imagem}
-                  alt="Preview"
-                  className="w-full h-full object-cover rounded-lg border"
-                />
-              </div>
-            )}
-            <div className="flex-1">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleUploadImagem}
-                disabled={carregandoUpload}
-                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-              />
-              {carregandoUpload && (
-                <p className="text-sm text-blue-600 mt-1">📤 Enviando imagem...</p>
-              )}
-              <p className="text-xs text-gray-400 mt-1">Formatos: JPG, PNG, GIF, WEBP (max 5MB)</p>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Imagens do Produto ({form.imagens.length})
+          </label>
+
+          {/* Grid de miniaturas */}
+          {form.imagens.length > 0 && (
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-4">
+              {form.imagens.map((img, index) => (
+                <div
+                  key={index}
+                  className={`relative group aspect-square rounded-lg overflow-hidden border-2 ${
+                    index === 0 ? "border-blue-500" : "border-gray-200"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`Imagem ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* Badge de principal */}
+                  {index === 0 && (
+                    <span className="absolute top-1 left-1 bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">
+                      PRINCIPAL
+                    </span>
+                  )}
+
+                  {/* Botões de ação (aparecem ao passar o mouse) */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    {index !== 0 && (
+                      <button
+                        type="button"
+                        onClick={() => definirComoPrincipal(index)}
+                        title="Definir como principal"
+                        className="bg-blue-600 text-white w-8 h-8 rounded-full text-xs hover:bg-blue-700 flex items-center justify-center"
+                      >
+                        ⭐
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removerImagem(index)}
+                      title="Remover imagem"
+                      className="bg-red-600 text-white w-8 h-8 rounded-full text-xs hover:bg-red-700 flex items-center justify-center"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
+
+          {/* Input de upload (múltiplo) */}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleUploadImagem}
+            disabled={carregandoUpload}
+            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          />
+          {carregandoUpload && (
+            <p className="text-sm text-blue-600 mt-1">📤 Enviando imagem(ns)...</p>
+          )}
+          <p className="text-xs text-gray-400 mt-1">
+            Formatos: JPG, PNG, GIF, WEBP (max 5MB cada). Você pode selecionar várias de uma vez.
+          </p>
         </div>
 
         <div>
@@ -379,7 +452,6 @@ export default function EditarProdutoPage() {
           </div>
         </div>
 
-        {/* ✅ Checkbox de destaque */}
         <div className="flex items-center gap-2 border-t pt-4 mt-4">
           <input
             type="checkbox"
@@ -392,6 +464,12 @@ export default function EditarProdutoPage() {
             ⭐ Destacar na Home
           </label>
         </div>
+
+        {erro && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+            <p className="text-sm text-red-700">{erro}</p>
+          </div>
+        )}
 
         <div className="flex gap-4 pt-4">
           <button
