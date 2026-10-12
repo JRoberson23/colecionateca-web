@@ -21,7 +21,6 @@ interface FormData {
   descricao: string;
   preco: string;
   estoque: string;
-  imagens: string;
   categoria: string;
   metadata: Metadata;
   destaque: boolean;
@@ -39,7 +38,6 @@ export default function NovoProdutoPage() {
     descricao: "",
     preco: "",
     estoque: "",
-    imagens: "",
     categoria: "",
     metadata: {
       console: "",
@@ -71,13 +69,11 @@ export default function NovoProdutoPage() {
     setErro(null);
 
     try {
-      // ✅ Pegar token do localStorage diretamente
       const token = localStorage.getItem("token");
       if (!token) {
         throw new Error("Você precisa estar logado para criar um produto");
       }
 
-      // ✅ Construir metadata sem valores vazios
       const metadata: Record<string, string> = {};
       Object.keys(form.metadata).forEach((key) => {
         if (form.metadata[key]) {
@@ -116,53 +112,64 @@ export default function NovoProdutoPage() {
     }
   };
 
-// ✅ Upload de múltiplas imagens
-const handleUploadImagens = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const files = e.target.files;
-  if (!files || files.length === 0) return;
+  // ✅ Upload de múltiplas imagens
+  const handleUploadImagens = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-  // Verificar se não excede 5
-  if (imagens.length + files.length > 5) {
-    alert('Você pode adicionar no máximo 5 imagens.');
-    return;
-  }
-
-  const formData = new FormData();
-  for (let i = 0; i < files.length; i++) {
-    formData.append('imagens', files[i]);
-  }
-
-  setCarregandoUpload(true);
-
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/upload`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      throw new Error(data.message || "Erro ao enviar imagens");
+    if (imagens.length + files.length > 5) {
+      alert('Você pode adicionar no máximo 5 imagens.');
+      return;
     }
 
-    const data = await response.json();
-    setImagens([...imagens, ...data.imageUrls]);
-  } catch (error) {
-    console.error("Erro ao enviar imagens:", error);
-    alert(error instanceof Error ? error.message : "Erro ao enviar imagens");
-  } finally {
-    setCarregandoUpload(false);
-  }
-};
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append('imagens', files[i]);
+    }
 
-// ✅ Remover uma imagem
-const removerImagem = (index: number) => {
-  setImagens(imagens.filter((_, i) => i !== index));
-};
+    setCarregandoUpload(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/produtos/upload`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Erro ao enviar imagens");
+      }
+
+      const data = await response.json();
+      setImagens([...imagens, ...data.imageUrls]);
+
+      // Limpa o input para permitir subir mais depois
+      e.target.value = "";
+    } catch (error) {
+      console.error("Erro ao enviar imagens:", error);
+      alert(error instanceof Error ? error.message : "Erro ao enviar imagens");
+    } finally {
+      setCarregandoUpload(false);
+    }
+  };
+
+  // ✅ Remover uma imagem
+  const removerImagem = (index: number) => {
+    setImagens(imagens.filter((_, i) => i !== index));
+  };
+
+  // ✅ Definir imagem como principal (mover para o índice 0)
+  const definirComoPrincipal = (index: number) => {
+    if (index === 0) return;
+    const novas = [...imagens];
+    const [img] = novas.splice(index, 1);
+    novas.unshift(img);
+    setImagens(novas);
+  };
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -228,45 +235,79 @@ const removerImagem = (index: number) => {
           </div>
         </div>
 
-        {/* ✅ Campo de upload de imagem */}
+        {/* ✅ GALERIA DE IMAGENS */}
         <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Imagens do Produto (máx. 5)
-        </label>
-        
-        {/* Prévia das imagens */}
-        <div className="flex flex-wrap gap-2 mb-2">
-          {imagens.map((img, index) => (
-            <div key={index} className="relative w-20 h-20 border rounded">
-              <img src={img} alt={`Produto ${index}`} className="w-full h-full object-cover rounded" />
-              <button
-                type="button"
-                onClick={() => removerImagem(index)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center"
-              >
-                ✕
-              </button>
-            </div>
-          ))}
-        </div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Imagens do Produto ({imagens.length}/5)
+          </label>
 
-        {imagens.length < 5 && (
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleUploadImagens}
-            disabled={carregandoUpload}
-            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-          />
-        )}
-        {carregandoUpload && (
-          <p className="text-sm text-blue-600 mt-1">📤 Enviando imagens...</p>
-        )}
-        <p className="text-xs text-gray-400 mt-1">
-          {imagens.length}/5 imagens • Formatos: JPG, PNG, GIF, WEBP (max 5MB cada)
-        </p>
-      </div>
+          {/* Grid de miniaturas */}
+          {imagens.length > 0 && (
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-4">
+              {imagens.map((img, index) => (
+                <div
+                  key={index}
+                  className={`relative group aspect-square rounded-lg overflow-hidden border-2 ${
+                    index === 0 ? "border-blue-500" : "border-gray-200"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`Imagem ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* Badge de principal */}
+                  {index === 0 && (
+                    <span className="absolute top-1 left-1 bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">
+                      PRINCIPAL
+                    </span>
+                  )}
+
+                  {/* Botões de ação (aparecem ao passar o mouse) */}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    {index !== 0 && (
+                      <button
+                        type="button"
+                        onClick={() => definirComoPrincipal(index)}
+                        title="Definir como principal"
+                        className="bg-blue-600 text-white w-8 h-8 rounded-full text-xs hover:bg-blue-700 flex items-center justify-center"
+                      >
+                        ⭐
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removerImagem(index)}
+                      title="Remover imagem"
+                      className="bg-red-600 text-white w-8 h-8 rounded-full text-xs hover:bg-red-700 flex items-center justify-center"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Input de upload */}
+          {imagens.length < 5 && (
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleUploadImagens}
+              disabled={carregandoUpload}
+              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+            />
+          )}
+          {carregandoUpload && (
+            <p className="text-sm text-blue-600 mt-1">📤 Enviando imagem(ns)...</p>
+          )}
+          <p className="text-xs text-gray-400 mt-1">
+            Formatos: JPG, PNG, GIF, WEBP (max 5MB cada). A primeira imagem será a principal.
+          </p>
+        </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
