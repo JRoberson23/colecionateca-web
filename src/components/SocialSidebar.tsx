@@ -23,7 +23,7 @@ export default function SocialSidebar() {
 
       {/* Ícones das redes sociais (expansíveis) */}
       <div
-        className={`flex items-center gap-3 ml-3 transition-all duration-300 ease-in-out ${
+        className={`flex items-center gap-1 ml-1 transition-all duration-300 ease-in-out ${
           isOpen ? "opacity-600 translate-x-0" : "opacity-0 translate-x-4 pointer-events-none"
         }`}
       >

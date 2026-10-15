@@ -107,7 +107,7 @@ export default function Chatbot() {
             className="fixed inset-0 z-40"
             onClick={() => setIsOpen(false)}
           />
-          <div className="fixed bottom-20 right-4 z-50 w-[270px] sm:w-80 md:w-96 h-[300px] sm:h-[400px] md:h-[450px] bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
+          <div className="fixed bottom-20 right-4 z-50 w-[280px] sm:w-100 md:w-96 h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
             {/* Cabeçalho */}
             <div className="bg-blue-600 text-white px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2">
