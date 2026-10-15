@@ -264,8 +264,30 @@ export default function NovoProdutoPage() {
                     </span>
                   )}
 
-                  {/* Botões de ação (aparecem ao passar o mouse) */}
-                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  {/* Botões de ação */}
+                  <div className="absolute top-1 right-1 flex gap-1 md:hidden">
+                    {index !== 0 && (
+                      <button
+                        type="button"
+                        onClick={() => definirComoPrincipal(index)}
+                        title="Definir como principal"
+                        className="bg-blue-600 text-white w-7 h-7 rounded-full text-xs shadow-md flex items-center justify-center"
+                      >
+                        ⭐
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => removerImagem(index)}
+                      title="Remover imagem"
+                      className="bg-red-600 text-white w-7 h-7 rounded-full text-xs shadow-md flex items-center justify-center"
+                    >
+                      ✕
+                    </button>
+                  </div>
+
+                  {/* ✅ DESKTOP: overlay com hover */}
+                  <div className="hidden md:flex absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity items-center justify-center gap-2">
                     {index !== 0 && (
                       <button
                         type="button"
