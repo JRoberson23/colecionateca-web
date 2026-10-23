@@ -11,7 +11,7 @@ export default function Sobre() {
       <div className="absolute bottom-0 left-0 pointer-events-none animate-walk mb-[-22px] md:mb-[-15px]">
         <Animation
           src={amongUsAnimation}
-          className="w-20 h-20 md:w-20 md:h-20"
+          className="w-25 h-25 md:w-20 md:h-14"
           loop={true}
           autoplay={true}
         />
