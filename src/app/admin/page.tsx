@@ -5,6 +5,7 @@ import { useAuth } from "@/src/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { listarProdutos } from "@/src/services/api"; 
+import { listarTodasAvaliacoes } from "@/src/services/avaliacoesAdmin";
 
 interface Produto {
   id: string;
@@ -31,6 +32,7 @@ export default function AdminPage() {
   const [produtos, setProdutos] = useState<Produto[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [mensagem, setMensagem] = useState<Mensagem | null>(null);
+  const [pendentes, setPendentes] = useState(0); // ← NOVO
 
   // ✅ Verificar se o usuário é ADMIN
   useEffect(() => {
@@ -51,13 +53,21 @@ export default function AdminPage() {
     }
   }, [usuario]);
 
+  // ✅ Contar avaliações pendentes
+  useEffect(() => {
+    if (usuario?.role !== "admin") return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    listarTodasAvaliacoes(token)
+      .then((data) => {
+        setPendentes(data.filter((a) => a.status === "pendente").length);
+      })
+      .catch(console.error);
+  }, [usuario]);
+
   // ✅ Função para excluir produto
   const handleExcluir = async (id: string, nome: string) => {
-    console.log('🗑️ EXCLUINDO PRODUTO - VERSÃO 2.0');
-    console.log('📦 ID:', id);
-    console.log('📦 Nome:', nome);
-    console.log('🔗 URL:', `${process.env.NEXT_PUBLIC_API_URL}/produtos/${id}`);
-
     if (!confirm(`Tem certeza que deseja excluir o produto "${nome}"?`)) {
       return;
     }
@@ -75,8 +85,6 @@ export default function AdminPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log('📦 Status da resposta:', response.status);
 
       if (!response.ok) {
         const data = await response.json();
@@ -98,6 +106,39 @@ export default function AdminPage() {
   return (
     <div className="max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">🛠️ Painel Administrativo</h1>
+
+      {/* ✅ Cards de resumo no topo */}
+      <div className="grid md:grid-cols-2 gap-4 mb-6">
+        {/* Card Produtos (informativo) */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-5">
+          <p className="text-xs text-blue-700 font-semibold uppercase">📦 Produtos</p>
+          <p className="text-3xl font-bold text-blue-800 mt-1">
+            {carregando ? "..." : produtos.length}
+          </p>
+          <p className="text-sm text-blue-600 mt-1">
+            {produtos.length === 1 ? "cadastrado" : "cadastrados"}
+          </p>
+        </div>
+
+        {/* Card Avaliações (clicável) */}
+        <Link
+          href="/admin/avaliacoes"
+          className="bg-yellow-50 border border-yellow-200 rounded-lg p-5 hover:bg-yellow-100 hover:border-yellow-300 transition group"
+        >
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-xs text-yellow-700 font-semibold uppercase">⭐ Avaliações</p>
+              <p className="text-3xl font-bold text-yellow-800 mt-1">{pendentes}</p>
+              <p className="text-sm text-yellow-700 mt-1">
+                {pendentes === 1 ? "pendente de moderação" : "pendentes de moderação"}
+              </p>
+            </div>
+            <span className="text-yellow-600 text-2xl group-hover:translate-x-1 transition-transform">
+              →
+            </span>
+          </div>
+        </Link>
+      </div>
 
       <div className="bg-white border rounded-lg p-6 shadow-sm">
         <div className="flex justify-between items-center mb-6">

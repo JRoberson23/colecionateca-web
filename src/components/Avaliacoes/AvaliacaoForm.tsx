@@ -19,6 +19,7 @@ interface Props {
 export default function AvaliacaoForm({ onAtualizar }: Props) {
   const { usuario, token, isAuthenticated } = useAuth();
 
+  const [mounted, setMounted] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [mensagem, setMensagem] = useState<{ tipo: "sucesso" | "erro"; texto: string } | null>(null);
@@ -30,6 +31,11 @@ export default function AvaliacaoForm({ onAtualizar }: Props) {
   const [notaDesign, setNotaDesign] = useState(0);
   const [notaCheckout, setNotaCheckout] = useState(0);
   const [comentario, setComentario] = useState("");
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   // Carrega a avaliação existente ao montar (se logado)
   useEffect(() => {
@@ -117,6 +123,12 @@ export default function AvaliacaoForm({ onAtualizar }: Props) {
     } finally {
       setEnviando(false);
     }
+  }
+
+  if (!mounted) {
+    return (
+        <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm min-h-[280px]" />
+    );
   }
 
   // --- Não logado ---
