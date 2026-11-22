@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useAuth } from "@/src/contexts/AuthContext"; 
+import { useAuth } from "@/src/contexts/AuthContext";
+import CampoSenha from "@/src/components/CampoSenha";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -55,14 +56,12 @@ export default function LoginPage() {
             <label htmlFor="senha" className="block text-sm font-medium text-gray-700 mb-1">
               Senha
             </label>
-            <input
+            <CampoSenha
               id="senha"
-              type="password"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/src/contexts/AuthContext";
 import { atualizarPerfil, uploadFoto, removerFoto } from "@/src/services/auth";
-import Avatar from "@/src/components/Avatar"; // ← NOVO
+import Avatar from "@/src/components/Avatar";
+import CampoSenha from "@/src/components/CampoSenha";
 
 export default function PerfilPage() {
   const router = useRouter();
@@ -148,7 +149,7 @@ export default function PerfilPage() {
       setConfirmarNovaSenha("");
 
       if (resultado.user) {
-        // ← ALTERADO: usa atualizarUsuario em vez de localStorage + reload
+        // Usa atualizarUsuario em vez de localStorage + reload
         atualizarUsuario(resultado.user);
       }
     } catch (error) {
@@ -318,13 +319,11 @@ export default function PerfilPage() {
                   <label htmlFor="senhaAtual" className="block text-sm font-medium text-gray-700 mb-1">
                     Senha atual
                   </label>
-                  <input
+                  <CampoSenha
                     id="senhaAtual"
-                    type="password"
                     value={senhaAtual}
                     onChange={(e) => setSenhaAtual(e.target.value)}
                     placeholder="Digite sua senha atual"
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -332,13 +331,11 @@ export default function PerfilPage() {
                   <label htmlFor="novaSenha" className="block text-sm font-medium text-gray-700 mb-1">
                     Nova senha
                   </label>
-                  <input
+                  <CampoSenha
                     id="novaSenha"
-                    type="password"
                     value={novaSenha}
                     onChange={(e) => setNovaSenha(e.target.value)}
                     placeholder="Nova senha (mínimo 6 caracteres)"
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -346,13 +343,11 @@ export default function PerfilPage() {
                   <label htmlFor="confirmarNovaSenha" className="block text-sm font-medium text-gray-700 mb-1">
                     Confirmar nova senha
                   </label>
-                  <input
+                  <CampoSenha
                     id="confirmarNovaSenha"
-                    type="password"
                     value={confirmarNovaSenha}
                     onChange={(e) => setConfirmarNovaSenha(e.target.value)}
                     placeholder="Confirme a nova senha"
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>

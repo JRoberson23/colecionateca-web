@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/src/contexts/AuthContext";
+import CampoSenha from "@/src/components/CampoSenha";
 
 export default function CadastroPage() {
     const router = useRouter();
@@ -104,14 +105,12 @@ export default function CadastroPage() {
                 <label htmlFor="senha" className="block text-sm font-medium text-gray-700 mb-1">
                 Senha
                 </label>
-                <input
-                id="senha"
-                type="password"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                placeholder="Mínimo 6 caracteres"
-                required
-                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <CampoSenha
+                    id="senha"
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
+                    placeholder="Mínimo 6 caracteres"
+                    required
                 />
             </div>
 
@@ -120,14 +119,12 @@ export default function CadastroPage() {
                 <label htmlFor="confirmarSenha" className="block text-sm font-medium text-gray-700 mb-1">
                 Confirmar senha
                 </label>
-                <input
-                id="confirmarSenha"
-                type="password"
-                value={confirmarSenha}
-                onChange={(e) => setConfirmarSenha(e.target.value)}
-                placeholder="Digite a senha novamente"
-                required
-                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                <CampoSenha
+                    id="confirmarSenha"
+                    value={confirmarSenha}
+                    onChange={(e) => setConfirmarSenha(e.target.value)}
+                    placeholder="Digite a senha novamente"
+                    required
                 />
             </div>
 
