@@ -6,6 +6,7 @@ import { useCarrinho } from "../contexts/CarrinhoContext";
 import { useAuth } from "../contexts/AuthContext";
 import CarrinhoLateral from "./CarrinhoLateral";
 import Animation from "./Animation";
+import Avatar from "./Avatar";
 
 export default function Header() {
   const { totalItens } = useCarrinho();
@@ -96,11 +97,16 @@ export default function Header() {
                 <div className="flex items-center gap-4">
                   <Link
                     href="/perfil"
-                    className={`transition-colors hover:opacity-80 ${
+                    className={`flex items-center gap-2 transition-colors hover:opacity-80 ${
                       scrolled ? "text-gray-700 hover:text-blue-600" : "text-white hover:text-blue-200"
                     }`}
                   >
-                    👤 {usuario.nome}
+                    <Avatar
+                      nome={usuario.nome}
+                      fotoUrl={usuario.foto_url}
+                      tamanho="sm"
+                    />
+                    <span className="hidden sm:inline">{usuario.nome}</span>
                   </Link>
                   {/* ✅ Se for ADMIN, mostra link para admin */}
                   {usuario.role === "admin" && (
