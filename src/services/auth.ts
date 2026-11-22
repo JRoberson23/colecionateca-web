@@ -104,3 +104,36 @@ export async function removerFoto(token: string) {
     throw new Error("Erro de conexão com o servidor");
   }
 }
+
+// Solicitar recuperação de senha (envia e-mail com link)
+export async function solicitarRecuperacao(email: string) {
+  try {
+    const response = await axios.post(`${API_URL}/auth/forgot-password`, {
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as { response: { data: { message: string } } };
+      throw new Error(err.response.data.message || "Erro ao solicitar recuperação");
+    }
+    throw new Error("Erro de conexão com o servidor");
+  }
+}
+
+// Redefinir senha com o token recebido por e-mail
+export async function redefinirSenha(token: string, novaSenha: string) {
+  try {
+    const response = await axios.post(`${API_URL}/auth/reset-password`, {
+      token,
+      novaSenha,
+    });
+    return response.data;
+  } catch (error) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as { response: { data: { message: string } } };
+      throw new Error(err.response.data.message || "Erro ao redefinir senha");
+    }
+    throw new Error("Erro de conexão com o servidor");
+  }
+}

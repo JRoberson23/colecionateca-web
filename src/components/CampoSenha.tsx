@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, InputHTMLAttributes } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 type CampoSenhaProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
