@@ -65,3 +65,42 @@ export async function atualizarPerfil(
     throw new Error("Erro de conexão com o servidor");
   }
 }
+
+// Upload de foto de perfil
+export async function uploadFoto(token: string, arquivo: File) {
+  try {
+    const formData = new FormData();
+    formData.append("foto", arquivo);
+
+    const response = await axios.put(`${API_URL}/auth/foto`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as { response: { data: { message: string } } };
+      throw new Error(err.response.data.message || "Erro ao enviar foto");
+    }
+    throw new Error("Erro de conexão com o servidor");
+  }
+}
+
+// Remover foto de perfil
+export async function removerFoto(token: string) {
+  try {
+    const response = await axios.delete(`${API_URL}/auth/foto`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    if (error && typeof error === "object" && "response" in error) {
+      const err = error as { response: { data: { message: string } } };
+      throw new Error(err.response.data.message || "Erro ao remover foto");
+    }
+    throw new Error("Erro de conexão com o servidor");
+  }
+}

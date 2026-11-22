@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/src/contexts/AuthContext";
-import { atualizarPerfil } from "@/src/services/auth";
+import { atualizarPerfil, uploadFoto, removerFoto } from "@/src/services/auth";
+import Avatar from "@/src/components/Avatar"; // ← NOVO
 
 export default function PerfilPage() {
   const router = useRouter();
-  const { usuario, isAuthenticated, isLoading } = useAuth();
+  const { usuario, isAuthenticated, isLoading, atualizarUsuario } = useAuth();
 
   // ✅ Estados para edição
   const [nome, setNome] = useState("");
@@ -18,6 +19,73 @@ export default function PerfilPage() {
   const [mensagem, setMensagem] = useState<string | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const [editando, setEditando] = useState(false);
+
+  // ✅ Estados do upload de foto
+  const [enviandoFoto, setEnviandoFoto] = useState(false);
+  const [erroFoto, setErroFoto] = useState<string | null>(null);
+
+  // ✅ Upload de foto
+  const handleUploadFoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const arquivo = e.target.files?.[0];
+    if (!arquivo) return;
+
+    // Validação no cliente (o backend também valida)
+    if (arquivo.size > 5 * 1024 * 1024) {
+      setErroFoto("A imagem deve ter no máximo 5MB.");
+      return;
+    }
+
+    const tiposPermitidos = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+    if (!tiposPermitidos.includes(arquivo.type)) {
+      setErroFoto("Formato inválido. Use JPG, PNG, GIF ou WEBP.");
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setErroFoto("Você precisa estar logado.");
+      return;
+    }
+
+    setEnviandoFoto(true);
+    setErroFoto(null);
+    try {
+      const resultado = await uploadFoto(token, arquivo);
+      atualizarUsuario(resultado.user);
+      setMensagem("Foto de perfil atualizada!");
+      setTimeout(() => setMensagem(null), 3000);
+    } catch (error) {
+      setErroFoto(error instanceof Error ? error.message : "Erro ao enviar foto");
+    } finally {
+      setEnviandoFoto(false);
+      // Limpa o input para permitir reenviar o mesmo arquivo
+      e.target.value = "";
+    }
+  };
+
+  // ✅ Remover foto
+  const handleRemoverFoto = async () => {
+    if (!confirm("Tem certeza que deseja remover sua foto de perfil?")) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setErroFoto("Você precisa estar logado.");
+      return;
+    }
+
+    setEnviandoFoto(true);
+    setErroFoto(null);
+    try {
+      const resultado = await removerFoto(token);
+      atualizarUsuario(resultado.user);
+      setMensagem("Foto de perfil removida.");
+      setTimeout(() => setMensagem(null), 3000);
+    } catch (error) {
+      setErroFoto(error instanceof Error ? error.message : "Erro ao remover foto");
+    } finally {
+      setEnviandoFoto(false);
+    }
+  };
 
   // ✅ Quando começar a editar, carregar os dados do usuário
   const handleEditar = () => {
@@ -40,60 +108,53 @@ export default function PerfilPage() {
   };
 
   const handleSalvar = async () => {
-  setMensagem(null);
-  setErro(null);
+    setMensagem(null);
+    setErro(null);
 
-  // ✅ Pegar o token do localStorage
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-  if (!token) {
-    setErro("Você precisa estar logado para atualizar o perfil");
-    return;
-  }
-
-  // Validação de senha
-  if (novaSenha && novaSenha !== confirmarNovaSenha) {
-    setErro("As novas senhas não coincidem");
-    return;
-  }
-
-  if (novaSenha && novaSenha.length < 6) {
-    setErro("A nova senha deve ter pelo menos 6 caracteres");
-    return;
-  }
-
-  try {
-    // ✅ Preparar os dados para enviar
-    const dados: { nome: string; email: string; senha_atual?: string; nova_senha?: string } = {
-      nome,
-      email,
-    };
-
-    // Se tiver nova senha, incluir no payload
-    if (novaSenha) {
-      dados.senha_atual = senhaAtual;
-      dados.nova_senha = novaSenha;
+    if (!token) {
+      setErro("Você precisa estar logado para atualizar o perfil");
+      return;
     }
 
-    // ✅ Chamar a API para atualizar o perfil
-    const resultado = await atualizarPerfil(token, dados);
-
-    setMensagem(resultado.message || "Perfil atualizado com sucesso!");
-    setEditando(false);
-    setSenhaAtual("");
-    setNovaSenha("");
-    setConfirmarNovaSenha("");
-
-    // ✅ Atualizar os dados do usuário no localStorage
-    if (resultado.user) {
-      localStorage.setItem("usuario", JSON.stringify(resultado.user));
-      
-      window.location.reload();
+    if (novaSenha && novaSenha !== confirmarNovaSenha) {
+      setErro("As novas senhas não coincidem");
+      return;
     }
-  } catch (error) {
-    setErro(error instanceof Error ? error.message : "Erro ao atualizar perfil");
-  }
-};
+
+    if (novaSenha && novaSenha.length < 6) {
+      setErro("A nova senha deve ter pelo menos 6 caracteres");
+      return;
+    }
+
+    try {
+      const dados: { nome: string; email: string; senha_atual?: string; nova_senha?: string } = {
+        nome,
+        email,
+      };
+
+      if (novaSenha) {
+        dados.senha_atual = senhaAtual;
+        dados.nova_senha = novaSenha;
+      }
+
+      const resultado = await atualizarPerfil(token, dados);
+
+      setMensagem(resultado.message || "Perfil atualizado com sucesso!");
+      setEditando(false);
+      setSenhaAtual("");
+      setNovaSenha("");
+      setConfirmarNovaSenha("");
+
+      if (resultado.user) {
+        // ← ALTERADO: usa atualizarUsuario em vez de localStorage + reload
+        atualizarUsuario(resultado.user);
+      }
+    } catch (error) {
+      setErro(error instanceof Error ? error.message : "Erro ao atualizar perfil");
+    }
+  };
 
   // ✅ Mostra loading enquanto verifica autenticação
   if (isLoading) {
@@ -107,7 +168,6 @@ export default function PerfilPage() {
     );
   }
 
-  // ✅ Se não estiver autenticado, redireciona para login
   if (!isAuthenticated || !usuario) {
     if (typeof window !== "undefined") {
       router.push("/login?redirect=perfil");
@@ -131,6 +191,64 @@ export default function PerfilPage() {
             {erro}
           </div>
         )}
+
+        {/* ✅ Seção de foto de perfil */}
+        <div className="flex flex-col items-center gap-3 pb-6 mb-6 border-b">
+          <Avatar
+            nome={usuario.nome}
+            fotoUrl={usuario.foto_url}
+            tamanho="lg"
+          />
+
+          {erroFoto && (
+            <div className="bg-red-100 text-red-700 p-2 rounded text-sm w-full text-center">
+              {erroFoto}
+            </div>
+          )}
+
+          <div className="flex flex-wrap justify-center gap-2">
+            <label
+              htmlFor="upload-foto"
+              className={`cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition ${
+                enviandoFoto ? "opacity-50 pointer-events-none" : ""
+              }`}
+            >
+              {enviandoFoto ? "Enviando..." : usuario.foto_url ? "Trocar foto" : "Adicionar foto"}
+            </label>
+            <input
+              id="upload-foto"
+              type="file"
+              accept="image/jpeg,image/png,image/gif,image/webp"
+              className="hidden"
+              onChange={handleUploadFoto}
+              disabled={enviandoFoto}
+            />
+
+            {usuario.foto_url && (
+              <button
+                type="button"
+                onClick={handleRemoverFoto}
+                disabled={enviandoFoto}
+                className="bg-red-50 text-red-600 border border-red-200 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-100 transition disabled:opacity-50"
+              >
+                Remover foto
+              </button>
+            )}
+          </div>
+
+          <p className="text-xs text-gray-500 text-center max-w-md">
+            JPG, PNG, GIF ou WEBP — máximo 5MB. A imagem será redimensionada automaticamente.
+          </p>
+
+          {/* ⚠️ Aviso de conteúdo apropriado */}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 max-w-md text-center">
+            <p className="text-xs text-yellow-800">
+              ⚠️ <span className="font-bold">Escolha uma foto apropriada.</span>{" "}
+              Fotos com conteúdo ofensivo, violento, sexual ou que viole direitos autorais
+              serão removidas e podem resultar em suspensão da conta.
+            </p>
+          </div>
+        </div>
 
         {/* ✅ Modo de visualização */}
         {!editando && (
@@ -166,7 +284,6 @@ export default function PerfilPage() {
         {/* ✅ Modo de edição */}
         {editando && (
           <div className="space-y-4">
-            {/* Nome */}
             <div>
               <label htmlFor="nome" className="block text-sm font-medium text-gray-700 mb-1">
                 Nome completo
@@ -180,7 +297,6 @@ export default function PerfilPage() {
               />
             </div>
 
-            {/* E-mail */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 E-mail
@@ -194,10 +310,9 @@ export default function PerfilPage() {
               />
             </div>
 
-            {/* Alterar senha */}
             <div className="border-t pt-4 mt-4">
               <h3 className="text-lg font-semibold mb-4">Alterar senha</h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <label htmlFor="senhaAtual" className="block text-sm font-medium text-gray-700 mb-1">
@@ -243,7 +358,6 @@ export default function PerfilPage() {
               </div>
             </div>
 
-            {/* Botões */}
             <div className="flex gap-4 pt-4">
               <button
                 type="button"

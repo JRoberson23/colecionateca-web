@@ -8,6 +8,7 @@ interface Usuario {
   nome: string;
   email: string;
   role: string;
+  foto_url?: string | null;
 }
 
 interface AuthContextType {
@@ -18,6 +19,7 @@ interface AuthContextType {
   login: (email: string, senha: string) => Promise<void>;
   registrar: (nome: string, email: string, senha: string) => Promise<void>;
   logout: () => void;
+  atualizarUsuario: (usuarioAtualizado: Usuario) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // ✅ Inicializar com os dados do localStorage (sem useEffect)
   const [usuario, setUsuario] = useState<Usuario | null>(carregarDadosIniciais().usuario);
   const [token, setToken] = useState<string | null>(carregarDadosIniciais().token);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoading, setIsLoading] = useState(false);
 
   const login = async (email: string, senha: string) => {
@@ -79,6 +82,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem("usuario");
   };
 
+  const atualizarUsuario = (usuarioAtualizado: Usuario) => {
+    setUsuario(usuarioAtualizado);
+    localStorage.setItem("usuario", JSON.stringify(usuarioAtualizado));
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -89,6 +97,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         registrar,
         logout,
+        atualizarUsuario,
       }}
     >
       {children}
