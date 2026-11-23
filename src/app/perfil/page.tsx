@@ -130,9 +130,8 @@ export default function PerfilPage() {
     }
 
     try {
-      const dados: { nome: string; email: string; senha_atual?: string; nova_senha?: string } = {
+      const dados: { nome: string; senha_atual?: string; nova_senha?: string } = {
         nome,
-        email,
       };
 
       if (novaSenha) {
@@ -306,9 +305,10 @@ export default function PerfilPage() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                readOnly
+                className="w-full border rounded-lg px-4 py-2 bg-gray-100 text-gray-500 cursor-not-allowed focus:outline-none"
               />
+              <p className="text-xs text-gray-500 mt-1">O e-mail não pode ser alterado.</p>
             </div>
 
             <div className="border-t pt-4 mt-4">

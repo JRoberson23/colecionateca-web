@@ -9,6 +9,7 @@ import {
   responderAvaliacao,
   deletarAvaliacaoAdmin,
 } from "../../services/avaliacoesAdmin";
+import Avatar from "../Avatar";
 
 interface Props {
   avaliacao: Avaliacao;
@@ -103,10 +104,17 @@ export default function AdminAvaliacaoCard({ avaliacao, onAtualizar }: Props) {
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
       {/* Cabeçalho: nome, email, data, status */}
       <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
-        <div>
-          <p className="font-bold text-gray-800">{avaliacao.usuario_nome || "Cliente"}</p>
-          <p className="text-xs text-gray-500">{avaliacao.usuario_email || ""}</p>
-          <p className="text-xs text-gray-400 mt-0.5">{formatarData(avaliacao.createdAt)}</p>
+        <div className="flex items-center gap-3">
+          <Avatar 
+            nome={avaliacao.usuario_nome || "Cliente"} 
+            fotoUrl={avaliacao.usuario_foto_url} 
+            tamanho="sm" 
+          />
+          <div>
+            <p className="font-bold text-gray-800">{avaliacao.usuario_nome || "Cliente"}</p>
+            <p className="text-xs text-gray-500">{avaliacao.usuario_email || ""}</p>
+            <p className="text-xs text-gray-400 mt-0.5">{formatarData(avaliacao.createdAt)}</p>
+          </div>
         </div>
         <span className={`text-xs font-bold px-3 py-1 rounded-full border ${badgeStatus.classes}`}>
           {badgeStatus.texto}

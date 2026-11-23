@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Estrelas from "./Estrelas";
 import { listarAvaliacoesPublicas, type Avaliacao } from "../../services/avaliacoes";
+import Avatar from "../Avatar";
 
 interface Props {
   /** Se mudar, força recarregar (usado após enviar/editar/excluir) */
@@ -122,11 +123,18 @@ export default function AvaliacoesList({ recarregar }: Props) {
             >
               {/* Cabeçalho do card */}
               <div className="flex items-start justify-between gap-3 mb-3">
-                <div>
-                  <p className="font-bold text-gray-800">
-                    {av.usuario_nome || "Cliente"}
-                  </p>
-                  <p className="text-xs text-gray-500">{formatarData(av.createdAt)}</p>
+                <div className="flex items-center gap-3">
+                  <Avatar 
+                    nome={av.usuario_nome || "Cliente"} 
+                    fotoUrl={av.usuario_foto_url} 
+                    tamanho="sm" 
+                  />
+                  <div>
+                    <p className="font-bold text-gray-800">
+                      {av.usuario_nome || "Cliente"}
+                    </p>
+                    <p className="text-xs text-gray-500">{formatarData(av.createdAt)}</p>
+                  </div>
                 </div>
                 <Estrelas valor={av.nota_geral} tamanho="text-sm" />
               </div>

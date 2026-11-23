@@ -15,6 +15,7 @@ export interface Avaliacao {
   updatedAt?: string;
   usuario_nome?: string;
   usuario_email?: string;
+  usuario_foto_url?: string | null;
 }
 
 export interface RespostaListaAvaliacoes {

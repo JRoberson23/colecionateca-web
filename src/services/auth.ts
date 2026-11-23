@@ -41,7 +41,7 @@ export async function atualizarPerfil(
   token: string,
   dados: {
     nome?: string;
-    email?: string;
+    //email?: string;
     senha_atual?: string;
     nova_senha?: string;
   }
