@@ -152,15 +152,23 @@ export default function AvaliacoesList({ recarregar }: Props) {
 
               {/* Resposta do admin */}
               {av.resposta_admin && (
-                <div className="mt-3 pl-3 border-l-4 border-blue-400 bg-blue-50 rounded-r-lg p-3">
-                  <p className="text-xs font-bold text-blue-700 mb-1">
-                    💬 Resposta da loja
-                  </p>
-                  <p className="text-sm text-blue-900 leading-relaxed">
-                    {av.resposta_admin}
+              <div className="mt-3 pl-3 border-l-4 border-blue-400 bg-blue-50 rounded-r-lg p-3">
+                <div className="flex items-center gap-2 mb-1.5">
+                  {/* Foto do desenvolvedor. Usando a logo que já está na pasta public */}
+                  <Avatar 
+                    nome="Roberson Junior" 
+                    fotoUrl="/images/logo-roberson.png" 
+                    tamanho="sm" 
+                  />
+                  <p className="text-xs font-bold text-blue-700">
+                    Resposta do Desenvolvedor
                   </p>
                 </div>
-              )}
+                <p className="text-sm text-blue-900 leading-relaxed pl-10">
+                  {av.resposta_admin}
+                </p>
+              </div>
+            )}
             </article>
           ))}
         </div>

@@ -14,8 +14,8 @@ export interface Avaliacao {
   createdAt?: string;
   updatedAt?: string;
   usuario_nome?: string;
-  usuario_email?: string;
   usuario_foto_url?: string | null;
+  usuario_email?: string;
 }
 
 export interface RespostaListaAvaliacoes {
