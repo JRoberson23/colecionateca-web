@@ -39,20 +39,26 @@ export default function Hero() {
         </p>
 
         {/* ⚠️ AVISO IMPORTANTE - COM DESTAQUE */}
-        <div className="bg-black/40 backdrop-blur-sm border border-white/20 rounded-xl p-3 mb-6 max-w-2xl mx-auto">
-        <p className="text-white/80 text-xs md:text-sm">
-          ⚠️ <span className="font-semibold">Site de demonstração:</span> Este é um portfólio de e-commerce. 
-          Nenhuma venda real é realizada.
-        </p>
-      </div>
+        <div className="bg-black/30 backdrop-blur-md rounded-lg p-3 mb-6 max-w-2xl mx-auto border-l-4 border-yellow-400">
+          <p className="text-white/90 text-xs md:text-sm flex items-center justify-center gap-2">
+            <span className="text-lg">⚠️</span>
+            <span>
+              <strong className="font-semibold">Site de demonstração:</strong> Este é um portfólio de e-commerce. Nenhuma venda real é realizada.
+            </span>
+          </p>
+        </div>
 
         {/* Selos de funcionalidades */}
-        <div className="flex flex-wrap justify-center gap-3 mb-8 text-sm">
-          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">🛒 Carrinho</span>
-          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">💳 Pagamento</span>
-          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">📦 Frete</span>
-          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">🛡️ Admin</span>
-          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">📱 Responsivo</span>
+        <div className="flex flex-wrap justify-center items-center gap-x-3 gap-y-2 mb-8 text-sm md:text-base font-medium text-white/90 drop-shadow-md">
+          <span>🛒 Carrinho</span>
+          <span className="text-white/40 hidden sm:inline">•</span>
+          <span>💳 Pagamento</span>
+          <span className="text-white/40 hidden sm:inline">•</span>
+          <span>📦 Frete</span>
+          <span className="text-white/40 hidden sm:inline">•</span>
+          <span>🛡️ Admin</span>
+          <span className="text-white/40 hidden sm:inline">•</span>
+          <span>📱 Responsivo</span>
         </div>
         
         <div className="flex flex-wrap justify-center gap-4">
